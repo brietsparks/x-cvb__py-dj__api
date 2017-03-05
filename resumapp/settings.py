@@ -42,7 +42,7 @@ INSTALLED_APPS = [
 
     'items',
 
-    'persons',
+    'profiles',
     'exps',
     'skills',
 

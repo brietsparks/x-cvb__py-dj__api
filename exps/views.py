@@ -1,6 +1,11 @@
 from rest_framework import viewsets
-from exps.models import Project, Contribution
-from exps.serializers import ProjectSerializer, ContributionSerializer
+from exps.models import Exp, Project, Contribution
+from exps.serializers import ExpSerializer, ProjectSerializer, ContributionSerializer
+
+
+class ExpViewSet(viewsets.ModelViewSet):
+    queryset = Exp.objects.all()
+    serializer_class = ExpSerializer
 
 
 class ProjectViewSet(viewsets.ModelViewSet):

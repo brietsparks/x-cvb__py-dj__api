@@ -21,12 +21,15 @@ from rest_framework import routers, serializers, viewsets
 
 from exps import views as exp_views
 from skills import views as skill_views
+from profiles import views as profile_views
 
 
 router = routers.DefaultRouter()
+router.register(r'exps', exp_views.ExpViewSet)
 router.register(r'projects', exp_views.ProjectViewSet)
 router.register(r'contributions', exp_views.ContributionViewSet)
 router.register(r'skills', skill_views.SkillViewSet)
+router.register(r'profiles', profile_views.ProfileViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
@@ -34,7 +37,9 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
+    url(r'^exps/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^projects/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^contributions/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^skills/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^skills/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^profiles', include('rest_framework.urls', namespace='rest_framework'))
 ]
