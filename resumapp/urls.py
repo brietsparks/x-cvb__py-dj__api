@@ -19,11 +19,14 @@ from django.conf.urls import include
 from items.models import Item
 from rest_framework import routers, serializers, viewsets
 
-from exps import views
+from exps import views as exp_views
+from skills import views as skill_views
 
 
 router = routers.DefaultRouter()
-router.register(r'projects', views.ProjectViewSet)
+router.register(r'projects', exp_views.ProjectViewSet)
+router.register(r'contributions', exp_views.ContributionViewSet)
+router.register(r'skills', skill_views.SkillViewSet)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
@@ -31,5 +34,7 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
-    url(r'^projects/', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^projects/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^contributions/', include('rest_framework.urls', namespace='rest_framework')),
+    url(r'^skills/', include('rest_framework.urls', namespace='rest_framework'))
 ]
