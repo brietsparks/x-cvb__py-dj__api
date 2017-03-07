@@ -18,6 +18,7 @@ from django.contrib import admin
 from django.conf.urls import include
 from items.models import Item
 from rest_framework import routers, serializers, viewsets
+from rest_framework_jwt.views import obtain_jwt_token
 
 from exps import views as exp_views
 from skills import views as skill_views
@@ -37,9 +38,11 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
+    url(r'^api-token-auth/', obtain_jwt_token),
+
     url(r'^exps/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^projects/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^contributions/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^skills/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^profiles', include('rest_framework.urls', namespace='rest_framework'))
+    url(r'^profiles', include('rest_framework.urls', namespace='rest_framework')),
 ]
