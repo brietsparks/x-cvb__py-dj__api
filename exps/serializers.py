@@ -1,7 +1,6 @@
 from rest_framework import serializers
 from exps.models import Exp, Project, Contribution
 from skills.serializers import SkillSerializer
-from profiles.serializers import ProfileSerializer
 
 
 class ExpSerializer(serializers.ModelSerializer):

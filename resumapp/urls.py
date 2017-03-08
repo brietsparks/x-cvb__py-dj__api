@@ -1,36 +1,26 @@
-"""resumapp URL Configuration
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/1.10/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  url(r'^$', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  url(r'^$', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.conf.urls import url, include
-    2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
-"""
 from django.conf.urls import url
 from django.contrib import admin
 from django.conf.urls import include
-from items.models import Item
+
 from rest_framework import routers, serializers, viewsets
-from rest_framework_jwt.views import obtain_jwt_token
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 
-from exps import views as exp_views
-from skills import views as skill_views
-from profiles import views as profile_views
+from rest_framework_extensions.routers import ExtendedSimpleRouter
+
+from exps.views import ExpViewSet, ProjectViewSet, ContributionViewSet
+from skills.views import SkillViewSet
+from profiles.views import ProfileViewSet
 
 
-router = routers.DefaultRouter()
-router.register(r'exps', exp_views.ExpViewSet)
-router.register(r'projects', exp_views.ProjectViewSet)
-router.register(r'contributions', exp_views.ContributionViewSet)
-router.register(r'skills', skill_views.SkillViewSet)
-router.register(r'profiles', profile_views.ProfileViewSet)
+router = ExtendedSimpleRouter()
+router.register(r'exps', ExpViewSet)
+router.register(r'projects', ProjectViewSet)
+router.register(r'contributions', ContributionViewSet)
+router.register(r'skills', SkillViewSet)
+(
+    router.register(r'profiles', ProfileViewSet)
+          .register(r'exps', ExpViewSet, parents_query_lookups=['profile_id'], base_name='profiles-exps')
+)
 
 urlpatterns = [
     url(r'^', include(router.urls)),
@@ -39,6 +29,8 @@ urlpatterns = [
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
 
     url(r'^api-token-auth/', obtain_jwt_token),
+    url(r'^api-token-refresh/', refresh_jwt_token),
+    url(r'^api-token-verify/', verify_jwt_token),
 
     url(r'^exps/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^projects/', include('rest_framework.urls', namespace='rest_framework')),
