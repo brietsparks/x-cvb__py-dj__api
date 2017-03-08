@@ -23,3 +23,26 @@ class Project(Exp):
 
 class Contribution(Exp):
     skills = models.ManyToManyField(Skill)
+
+
+TIME_SPAN_FREQS = (
+    ('F', 'Full Time'),
+    ('P', 'Part Time')
+)
+
+
+class TimeSpan(models.Model):
+    exp = models.ForeignKey(Exp, on_delete=models.CASCADE)
+
+    frequency = models.CharField(max_length=255, choices=TIME_SPAN_FREQS)
+
+    start_year = models.IntegerField()
+    start_month = models.IntegerField()
+    start_day = models.IntegerField(blank=True, null=True)
+
+    start_canonical = models.DateField()
+
+    end_canonical = models.DateField()
+    end_year = models.IntegerField()
+    end_month = models.IntegerField()
+    end_day = models.IntegerField(blank=True, null=True)
