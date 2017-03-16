@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'corsheaders',
+    'graphene_django',
 
     # resumapp
     'profiles',
@@ -131,10 +132,15 @@ REST_FRAMEWORK = {
 }
 
 CORS_ORIGIN_WHITELIST = (
+    'localhost:3000',
     'localhost:8000',
     '127.0.0.1:8000',
     'null'
 )
+
+GRAPHENE = {
+    'SCHEMA': 'exps.schema.schema'
+}
 
 
 # Internationalization

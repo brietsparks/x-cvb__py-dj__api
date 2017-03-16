@@ -8,6 +8,7 @@ import djoser.views
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token;
 from rest_framework_extensions.routers import ExtendedSimpleRouter
 from django.conf.urls import include, url
+from graphene_django.views import GraphQLView
 
 # resumapp
 from exps.views import ExpViewSet, ProjectViewSet, ContributionViewSet
@@ -41,11 +42,14 @@ urlpatterns = [
     url(r'^api-token-refresh/', refresh_jwt_token),
     url(r'^api-token-verify/', verify_jwt_token),
 
-    # api
+    # rest api
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^exps/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^projects/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^contributions/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^skills/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^profiles', include('rest_framework.urls', namespace='rest_framework')),
+
+    # graphql api
+    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
 ]
