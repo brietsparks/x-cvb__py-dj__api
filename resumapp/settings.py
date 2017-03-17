@@ -139,7 +139,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 GRAPHENE = {
-    'SCHEMA': 'exps.schema.schema'
+    'SCHEMA': 'resumapp.schema.schema'
 }
 
 

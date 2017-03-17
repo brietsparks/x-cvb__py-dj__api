@@ -11,20 +11,20 @@ from django.conf.urls import include, url
 from graphene_django.views import GraphQLView
 
 # resumapp
-from exps.views import ExpViewSet, ProjectViewSet, ContributionViewSet
+from exps.views import ProjectViewSet, ContributionViewSet #, ExpViewSet
 from skills.views import SkillViewSet
 from profiles.views import ProfileViewSet
 
 
 router = ExtendedSimpleRouter()
-router.register(r'exps', ExpViewSet)
+# router.register(r'exps', ExpViewSet)
 router.register(r'projects', ProjectViewSet)
 router.register(r'contributions', ContributionViewSet)
 router.register(r'skills', SkillViewSet)
-(
-    router.register(r'profiles', ProfileViewSet)
-          .register(r'exps', ExpViewSet, parents_query_lookups=['profile_id'], base_name='profiles-exps')
-)
+# (
+#     router.register(r'profiles', ProfileViewSet)
+#           .register(r'exps', ExpViewSet, parents_query_lookups=['profile_id'], base_name='profiles-exps')
+# )
 
 urlpatterns = [
     url(r'^', include(router.urls)),
@@ -44,7 +44,7 @@ urlpatterns = [
 
     # rest api
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^exps/', include('rest_framework.urls', namespace='rest_framework')),
+    # url(r'^exps/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^projects/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^contributions/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^skills/', include('rest_framework.urls', namespace='rest_framework')),

@@ -5,7 +5,6 @@ from skills.serializers import SkillSerializer
 
 class ExpSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Exp
         fields = ('id', 'parent_id', 'profile_id', 'title', 'summary')
 
 

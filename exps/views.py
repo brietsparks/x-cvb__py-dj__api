@@ -4,9 +4,9 @@ from exps.models import Exp, Project, Contribution
 from exps.serializers import ExpSerializer, ProjectSerializer, ContributionSerializer
 
 
-class ExpViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
-    queryset = Exp.objects.all()
-    serializer_class = ExpSerializer
+# class ExpViewSet(NestedViewSetMixin, viewsets.ModelViewSet):
+#     queryset = Exp.objects.all()
+#     serializer_class = ExpSerializer
 
 
 class ProjectViewSet(NestedViewSetMixin, viewsets.ModelViewSet):

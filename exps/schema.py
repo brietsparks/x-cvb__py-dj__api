@@ -1,15 +1,15 @@
-from graphene import relay, ObjectType, resolve_only_args, Schema, List
-from graphene_django import DjangoConnectionField, DjangoObjectType
+from graphene import relay, ObjectType, AbstractType, resolve_only_args, Schema, List
+from graphene_django import DjangoObjectType
 
 from .models import Exp as ExpModel
 from .models import Project as ProjectModel 
 from .models import Contribution as ContributionModel
 
 
-class Exp(DjangoObjectType):
-    class Meta:
-        model = ExpModel
-        interfaces = (relay.Node,)
+# class Exp(DjangoObjectType):
+#     class Meta:
+#         model = ExpModel
+#         # interfaces = (relay.Node,)
 
 
 class Project(DjangoObjectType):
@@ -17,12 +17,12 @@ class Project(DjangoObjectType):
         model = ProjectModel
         
 
-class Contribution(Exp):
+class Contribution(DjangoObjectType):
     class Meta:
         model = ContributionModel
 
 
-class Query(ObjectType):
+class Query(AbstractType):
     projects = List(Project)
     contributions = List(Contribution)
 
@@ -35,4 +35,4 @@ class Query(ObjectType):
         return ContributionModel.objects.all()
 
 
-schema = Schema(query=Query, types=[Project, Contribution])
+# schema = Schema(query=Query, types=[Project, Contribution])
