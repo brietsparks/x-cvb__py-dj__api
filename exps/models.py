@@ -20,15 +20,14 @@ class Exp(models.Model):
 
 class Project(Exp):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="projects", blank=True, null=True)
-    parent = models.ForeignKey("Project", on_delete=models.CASCADE, blank=True, null=True)
+    parent = models.ForeignKey("Project", on_delete=models.CASCADE, related_name="projects", blank=True, null=True)
     date_ranges = ArrayField(DateRangeField(null=True), blank=True, null=True)
 
 
 class Contribution(Exp):
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name="contributions", blank=True, null=True)
-    parent = models.ForeignKey("Project", on_delete=models.CASCADE, blank=True, null=True)
-    skills = models.ManyToManyField(Skill)
-
+    parent = models.ForeignKey(Project, on_delete=models.CASCADE, related_name="contributions", blank=True, null=True)
+    skills = models.ManyToManyField(Skill, related_name="+")
 
 TIME_SPAN_FREQS = (
     ('F', 'Full Time'),
