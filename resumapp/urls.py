@@ -21,10 +21,29 @@ router = ExtendedSimpleRouter()
 router.register(r'projects', ProjectViewSet)
 router.register(r'contributions', ContributionViewSet)
 router.register(r'skills', SkillViewSet)
-# (
-#     router.register(r'profiles', ProfileViewSet)
-#           .register(r'exps', ExpViewSet, parents_query_lookups=['profile_id'], base_name='profiles-exps')
-# )
+(
+    router.register(r'profiles', ProfileViewSet)
+          .register(r'projects', ProjectViewSet, parents_query_lookups=['profile_id'], base_name='profiles-contributions')
+)
+(
+    router.register(r'profiles', ProfileViewSet)
+          .register(r'contributions', ContributionViewSet, parents_query_lookups=['profile_id'], base_name='profiles-projects')
+)
+
+# graphql token view
+# http://stackoverflow.com/questions/39026831/how-to-use-graphene-graphql-framework-with-django-rest-framework-authentication
+
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import authentication_classes, permission_classes, api_view
+from resumapp.schema import schema
+def graphql_token_view():
+    view = GraphQLView.as_view(schema=schema)
+    view = permission_classes((IsAuthenticated,))(view)
+    view = authentication_classes((JSONWebTokenAuthentication,))(view)
+    view = api_view(['POST', 'GET'])(view)
+    return view
+
 
 urlpatterns = [
     url(r'^', include(router.urls)),
@@ -51,5 +70,6 @@ urlpatterns = [
     url(r'^profiles', include('rest_framework.urls', namespace='rest_framework')),
 
     # graphql api
-    url(r'^graphql', GraphQLView.as_view(graphiql=True)),
+    url(r'^graphiql', GraphQLView.as_view(graphiql=True)),
+    url(r'^graphql_token', graphql_token_view()),
 ]
